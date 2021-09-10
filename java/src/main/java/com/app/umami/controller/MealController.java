@@ -26,12 +26,16 @@ public class MealController {
 
     @GetMapping("/meal/{id}")
     public Meal getMeal(@PathVariable String id) {
-        return mealService.getMeal(id) ;
+        return mealService.getMeal(id);
     }
 
     @GetMapping("/meal")
-    public List<Meal> getAllMeals() {
-        return mealService.getAllMeals();
+    public List<Meal> getAllMeals(@RequestParam(required = false) String userId,
+                                  @RequestParam(required = false) String type,
+                                  @RequestParam(required = false) String tags,
+                                  @RequestParam(required = false) String city,
+                                  @RequestParam(required = false) String country) {
+        return mealService.getAllMeals(userId, type, tags, city, country);
     }
 
     @DeleteMapping("/meal/{id}")
