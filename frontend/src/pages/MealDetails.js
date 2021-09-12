@@ -30,13 +30,13 @@ class MealDetails extends Component {
     this.signToSocketEvent(hostedId);
 
     SocketService.emit('newChannel', `onEventRegistration${hostedId}`);
-    SocketService.on('addMsg', this.addMsg);
+    SocketService.on(`/topic/messages/${this.props.loggedInUser.id}`, this.addMsg);
   }
 
   signToSocketEvent = hostedId => {
     SocketService.setup();
     SocketService.emit('newChannel', `onEventRegistration${hostedId}`);
-    SocketService.on('addMsg', this.addMsg);
+    SocketService.on(`/topic/messages/${this.props.loggedInUser.id}`, this.addMsg);
   };
 
   componentWillUnmount() {
@@ -79,7 +79,9 @@ class MealDetails extends Component {
       await this.props.updateMeal(meal, this.props.loggedInUser);
 
       loggedInUser.titleHost = meal.title;
-      SocketService.emit('newMsg', { meal, loggedInUser });
+      console.log("Triggered",{meal, loggedInUser});
+      SocketService.emit('/app/chat', JSON.stringify({ meal: meal, user: loggedInUser }));
+      
     }
   };
 

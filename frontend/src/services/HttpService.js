@@ -1,8 +1,8 @@
 import history from '../history';
 import Axios from 'axios';
 
-const BASE_URL = process.env.NODE_ENV === 'production' ? '/api/' : '//localhost:3030/api/';
-// const BASE_URL = process.env.NODE_ENV === 'production' ? '/' : '//localhost:3030/';
+const BASE_URL = process.env.NODE_ENV === 'production' ? '/api/' : '//192.168.0.109:8081/api/';
+// const BASE_URL = process.env.NODE_ENV === 'production' ? '/api/' : '//localhost:3030/api/';
 
 var axios = Axios.create({
   withCredentials: true,
@@ -34,6 +34,7 @@ async function ajax(endpoint, method = 'get', data = null, params = null, dispat
     return res.data;
   } catch (err) {
     console.log(`Had Issues ${method}ing to the backend, endpoint: ${endpoint}, with data: ${data}, with params: ${params}`);
+    console.log(err);
     console.dir(err);
     if (err.response && err.response.status === 401) {
       history.push('/');

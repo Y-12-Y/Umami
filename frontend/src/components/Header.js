@@ -23,14 +23,13 @@ export class Header extends Component {
   componentDidMount() {
     
     if (this.props.loggedInUser) {
-      
-      this.signToSocketEvent(this.props.loggedInUser._id);
+      this.signToSocketEvent(this.props.loggedInUser.id);
     }
-    else {
+    // else {
       
-      this.loginAsGuest();
-      this.signToSocketEvent(GUEST_ID);
-    }
+    //   this.loginAsGuest();
+    //   this.signToSocketEvent(GUEST_ID);
+    // }
   }
 
   loginAsGuest() {
@@ -51,13 +50,14 @@ export class Header extends Component {
   signToSocketEvent = userId => {
     SocketService.setup();
     SocketService.emit('newChannel', `onEventRegistration${userId}`);
-    SocketService.on('addMsg', this.addMsg);
+    // SocketService.on('addMsg', this.addMsg);
+    SocketService.on(`/topic/messages/${userId}`, this.addMsg);
   };
 
   addMsg = newMsg => {
-    console.log('Header -> ', newMsg);
-
-    this.setState({ showNotification: true, registeredUser: newMsg.loggedInUser });
+    console.log("Received Notification");
+    console.log("===============> ", newMsg.body)
+    this.setState({ showNotification: true, registeredUser: JSON.parse(newMsg.body).user });
     setTimeout(this.resetNotification, 8000);
   };
 
@@ -72,6 +72,7 @@ export class Header extends Component {
 
   onLogout = ev => {
     ev.preventDefault();
+    sessionStorage.removeItem("user");
     this.props.logout();
     this.unSignToSocketEvent();
     this.props.history.push(`/`);

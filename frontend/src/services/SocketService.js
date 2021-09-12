@@ -1,7 +1,10 @@
 import io from 'socket.io-client';
+import * as SockJS from 'sockjs-client';
+var Stomp = require('stompjs');
 
 const BASE_URL =
-  process.env.NODE_ENV === 'production' ? '/' : '//localhost:3030';
+  // process.env.NODE_ENV === 'production' ? '/' : '//localhost:3030';
+  process.env.NODE_ENV === 'production' ? '/' : '//localhost:8081';
 
 let socket;
 
@@ -14,23 +17,42 @@ export default {
 };
 
 function setup() {
-
-  socket = io(BASE_URL);
+  let sock = new SockJS("http://192.168.0.109:8081/stomp");
+  socket = Stomp.over(sock);
 }
 
 function terminate() {
-  socket = null;
+  socket.disconnect(() => {
+    console.log(`Connected: ${socket.connected}`);
+  })
 }
 
 function on(eventName, cb) {
-  socket.on(eventName, cb);
+  if(socket.connected){
+    console.log("Subscribing");
+    socket.subscribe(eventName, payload => {
+      cb(payload);
+    })
+  } else{
+    socket.connect({}, () => {
+      console.log(`Connected: ${socket.connected}`);
+      on(eventName, cb);
+    })
+  }
 }
 
 function off(eventName, cb) {
-  socket.off(eventName, cb);
+  // socket.off(eventName, cb);
 }
 
 function emit(eventName, data) { 
-   
-  socket.emit(eventName, data);
+  if(socket.connected){
+    console.log("Event emitted", JSON.parse(data));
+    socket.send(eventName, {}, data);
+  } 
+  else {
+    socket.connect({}, () => {
+      emit(eventName, data);
+    })
+  }
 }
