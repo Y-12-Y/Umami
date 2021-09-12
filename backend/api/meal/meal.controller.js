@@ -3,6 +3,7 @@ const mealsService = require('./meal.service');
 
 async function getMeals(req, res) {
   try {
+    console.log(req.query)
     const meals = await mealsService.query(req.query);
     res.send(meals);
   } catch (err) {

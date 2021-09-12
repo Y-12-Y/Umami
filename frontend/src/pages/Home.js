@@ -10,7 +10,7 @@ import MeetOurHosts from '../components/MeetOurHosts';
 
 class Home extends Component {
 
-  componentDidMount() {
+  componentDidMount(props) {
     window.scrollTo(0,0)
     this.props.loadHomeMeals();
   }
