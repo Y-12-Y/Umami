@@ -34,8 +34,10 @@ public class MealController {
                                   @RequestParam(required = false) String type,
                                   @RequestParam(required = false) String tags,
                                   @RequestParam(required = false) String city,
-                                  @RequestParam(required = false) String country) {
-        return mealService.getAllMeals(userId, type, tags, city, country);
+                                  @RequestParam(required = false) String country,
+                                  @RequestParam(required = false) String group,
+                                  @RequestParam(required = false) String meals) {
+        return mealService.getAllMeals(userId, type, tags, city, country, group, meals);
     }
 
     @DeleteMapping("/meal/{id}")

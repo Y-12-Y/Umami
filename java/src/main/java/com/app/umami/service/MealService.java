@@ -31,7 +31,7 @@ public class MealService {
         return mealRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Meal not found"));
     }
 
-    public List<Meal> getAllMeals(String userId, String type, String tags, String city, String country) {
+    public List<Meal> getAllMeals(String userId, String type, String tags, String city, String country, String group, String meal) {
         List<Meal> meals = null;
 
         try {
@@ -45,9 +45,18 @@ public class MealService {
                 meals = mealRepository.findMealsByCity(city);
             }else if (StringUtils.isNotBlank(country)) {
                 meals = mealRepository.findMealsByCountry(country);
+            }else if (StringUtils.isNotBlank(group)) {
+                group = group.substring(1);
+                if (StringUtils.isNotBlank(meal)) {
+                    meals = mealRepository.findAll();
+                } else {
+                    meals = mealRepository.findMealsByGroup(group);
+                }
+            } else {
+                meals = mealRepository.findAll();
             }
         } catch (Exception e) {
-            throw new InternalServerException("Error occurred while getting all meals");
+            throw new InternalServerException("Error occurred while getting all meals" + e.getMessage());
         }
 
         return meals;

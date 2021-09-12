@@ -15,4 +15,7 @@ public interface MealRepositoryCustom {
     public List<Meal> findMealsByCity(String city);
 
     public List<Meal> findMealsByCountry(String country);
+
+    public List<Meal> findMealsByGroup(String group);
+
 }
