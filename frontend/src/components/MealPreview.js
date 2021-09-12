@@ -40,6 +40,7 @@ class MealPreview extends Component {
     getMainMsg() {
         let res;
         if (this.props.renderType === 'location') {
+            console.log(this.props);
             res = {
                 val: this.props.meal.location.city,
                 type: 'location'

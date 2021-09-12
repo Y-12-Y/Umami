@@ -30,13 +30,16 @@ class MealDetails extends Component {
     this.signToSocketEvent(hostedId);
 
     SocketService.emit('newChannel', `onEventRegistration${hostedId}`);
-    SocketService.on(`/topic/messages/${this.props.loggedInUser.id}`, this.addMsg);
+    console.log(this.props)
+    let userId = JSON.parse(sessionStorage.getItem("user")).id || "";
+    SocketService.on(`/topic/messages/${userId}`, this.addMsg);
   }
 
   signToSocketEvent = hostedId => {
     SocketService.setup();
     SocketService.emit('newChannel', `onEventRegistration${hostedId}`);
-    SocketService.on(`/topic/messages/${this.props.loggedInUser.id}`, this.addMsg);
+    let userId = JSON.parse(sessionStorage.getItem("user")).id || "";
+    SocketService.on(`/topic/messages/${userId}`, this.addMsg);
   };
 
   componentWillUnmount() {
