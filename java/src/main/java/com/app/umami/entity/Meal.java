@@ -1,5 +1,6 @@
 package com.app.umami.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mongodb.BasicDBObject;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -12,6 +13,7 @@ import java.util.List;
 public class Meal {
 
     @Id
+    @JsonProperty(value = "_id")
     private String id;
 
     private Boolean isActive;

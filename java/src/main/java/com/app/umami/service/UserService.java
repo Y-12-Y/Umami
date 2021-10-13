@@ -1,6 +1,7 @@
 package com.app.umami.service;
 
 import com.app.umami.entity.User;
+import com.app.umami.exception.AlreadyExistException;
 import com.app.umami.exception.ForbiddenException;
 import com.app.umami.exception.InternalServerException;
 import com.app.umami.exception.ResourceNotFoundException;
@@ -10,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -32,6 +34,11 @@ public class UserService {
 
     public User signup(User user) {
         User newUser = null;
+        Optional<User> oldUser = userRepository.findByEmail(user.getEmail());
+
+        if (oldUser.isPresent()) {
+            throw new AlreadyExistException("User already exists with email" + user.getEmail());
+        }
 
         try {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
