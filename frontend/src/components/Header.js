@@ -97,7 +97,7 @@ export class Header extends Component {
             {this.props.loggedInUser && (
               <>
                 <div className='logged-user-container'>
-                  <Link className='' to={`/user/${this.props.loggedInUser._id}`}>
+                  <Link className='' to={`/user/${this.props.loggedInUser.id}`}>
                     <img style={{ width: '60px', height: '60px' }} src='https://res.cloudinary.com/contentexs/image/upload/v1580171634/user-round.svg' alt='' />
                   </Link>
                 </div>

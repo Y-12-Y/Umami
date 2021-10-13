@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import UserMealPreview from './UserMealPreview'
 
 export default function UserMealList({ meals, userId ,onDelete}) {
     
+    useEffect(() => {
+        console.log(meals);
+    }, [])
+
     return <div className="row ">
                 <div className="col container ">
                     {meals && meals.map((meal, idx) => {
