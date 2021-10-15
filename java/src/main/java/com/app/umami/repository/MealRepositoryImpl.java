@@ -36,7 +36,10 @@ public class MealRepositoryImpl implements MealRepositoryCustom {
     @Override
     public List<Meal> findMealsByUserId(String userId) {
         Query query = new Query();
-        query.addCriteria(where("hostedBy._id").is(userId));
+        query.addCriteria(where("occurrences").ne(null).andOperator(where("occurrences").elemMatch(where("attendees._id").is(userId))));
+        /*query.fields().include("isActive", "isPromoted", "cuisineType", "mealType", "title", "price", "currency",
+                "capacity", "tags", "location", "imgUrls", "hostedBy", "description", "reviews", "menu" +
+                        "").elemMatch("occurrences", where("attendees._id").is(userId));*/
         return mongoTemplate.find(query, Meal.class);
     }
 
