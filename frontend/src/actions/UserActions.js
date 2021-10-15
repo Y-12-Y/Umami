@@ -12,6 +12,7 @@ export function signup(credentails) {
   return async dispatch => {
     const user = await UserService.signup(credentails);
     dispatch(_addUser(user));
+    return user;
   };
 }
 export function logout() {

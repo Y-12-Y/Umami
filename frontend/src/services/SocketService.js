@@ -17,7 +17,7 @@ export default {
 };
 
 function setup() {
-  let sock = new SockJS("http://192.168.0.109:8081/stomp");
+  let sock = new SockJS("http://localhost:8081/stomp");
   socket = Stomp.over(sock);
 }
 

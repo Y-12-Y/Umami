@@ -1,7 +1,7 @@
 import history from '../history';
 import Axios from 'axios';
 
-const BASE_URL = process.env.NODE_ENV === 'production' ? '/api/' : '//192.168.0.109:8081/api/';
+const BASE_URL = process.env.NODE_ENV === 'production' ? '/api/' : '//localhost:8081/api/';
 // const BASE_URL = process.env.NODE_ENV === 'production' ? '/api/' : '//localhost:3030/api/';
 
 var axios = Axios.create({

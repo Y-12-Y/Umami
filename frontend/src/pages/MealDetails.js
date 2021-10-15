@@ -71,12 +71,12 @@ class MealDetails extends Component {
         return;
       }
 
-      let userReservation = selectedOccurance.attendees.find(attendee => attendee._id === loggedInUser._id);
+      let userReservation = selectedOccurance.attendees.find(attendee => attendee._id === loggedInUser.id);
 
       if (userReservation) {
         userReservation.numOfAttendees = parseInt(userReservation.numOfAttendees) + parseInt(registration.numOfAttendees);
       } else {
-        selectedOccurance.attendees = [...selectedOccurance.attendees, { _id: loggedInUser._id, fullName: loggedInUser.fullName, imgUrl: loggedInUser.imgUrl, numOfAttendees: registration.numOfAttendees }];
+        selectedOccurance.attendees = [...selectedOccurance.attendees, { _id: loggedInUser.id, fullName: loggedInUser.fullName, imgUrl: loggedInUser.imgUrl, numOfAttendees: registration.numOfAttendees }];
       }
       selectedOccurance.total = parseInt(selectedOccurance.total) + parseInt(registration.numOfAttendees);
       await this.props.updateMeal(meal, this.props.loggedInUser);

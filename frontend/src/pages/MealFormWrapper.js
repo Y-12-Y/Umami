@@ -17,7 +17,7 @@ class MealFormWrapper extends Component {
     const loggedInUser = this.props.loggedInUser;
     const mealToAdd = { ...meal }
     await this.props.add(mealToAdd);
-    this.props.history.push(`/user/${loggedInUser._id}`)
+    this.props.history.push(`/user/${loggedInUser.id}`)
   };
 
   render() {
