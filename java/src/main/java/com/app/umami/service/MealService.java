@@ -4,11 +4,13 @@ import com.app.umami.entity.Meal;
 import com.app.umami.exception.InternalServerException;
 import com.app.umami.exception.ResourceNotFoundException;
 import com.app.umami.repository.MealRepository;
+import com.mongodb.BasicDBObject;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @AllArgsConstructor
@@ -37,6 +39,7 @@ public class MealService {
         try {
             if (StringUtils.isNotBlank(userId)) {
                 meals = mealRepository.findMealsByUserId(userId);
+                meals = getMeals(userId, meals);
             } else if (StringUtils.isNotBlank(type)) {
                 meals = mealRepository.findMealsByType(type);
             } else if (StringUtils.isNotBlank(tags)) {
@@ -57,6 +60,34 @@ public class MealService {
             }
         } catch (Exception e) {
             throw new InternalServerException("Error occurred while getting all meals" + e.getMessage());
+        }
+
+        return meals;
+    }
+
+    private List<Meal> getMeals(String userId, List<Meal> meals) {
+        Object occurrensId = null;
+        Object date = null;
+        Object total = null;
+
+        for (Meal meal : meals) {
+            for (BasicDBObject occurrence : meal.getOccurrences()) {
+                List<Object> attendees = (List<Object>) occurrence.get("attendees");
+
+                for (Object attendee : attendees) {
+                    Map<String, Object> map = (Map<String, Object>) attendee;
+                    if (StringUtils.equals(userId, (String) map.get("_id"))) {
+                        total = map.get("numOfAttendees");
+                        date = occurrence.get("date");
+                        occurrensId = occurrence.get("id");
+                        break;
+                    }
+                }
+            }
+
+            meal.setOccurensId(occurrensId);
+            meal.setDate(date);
+            meal.setTotal(total);
         }
 
         return meals;
