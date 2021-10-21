@@ -49,7 +49,7 @@ export class Header extends Component {
 
   signToSocketEvent = userId => {
     SocketService.setup();
-    SocketService.emit('newChannel', `onEventRegistration${userId}`);
+    // SocketService.emit('newChannel', `onEventRegistration${userId}`);
     // SocketService.on('addMsg', this.addMsg);
     SocketService.on(`/topic/messages/${userId}`, this.addMsg);
   };

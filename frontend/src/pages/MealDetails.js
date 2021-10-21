@@ -29,7 +29,7 @@ class MealDetails extends Component {
 
     this.signToSocketEvent(hostedId);
 
-    SocketService.emit('newChannel', `onEventRegistration${hostedId}`);
+    // SocketService.emit('newChannel', `onEventRegistration${hostedId}`);
     console.log(this.props)
     let userId = JSON.parse(sessionStorage.getItem("user")).id || "";
     SocketService.on(`/topic/messages/${userId}`, this.addMsg);
@@ -37,7 +37,7 @@ class MealDetails extends Component {
 
   signToSocketEvent = hostedId => {
     SocketService.setup();
-    SocketService.emit('newChannel', `onEventRegistration${hostedId}`);
+    // SocketService.emit('newChannel', `onEventRegistration${hostedId}`);
     let userId = JSON.parse(sessionStorage.getItem("user")).id || "";
     SocketService.on(`/topic/messages/${userId}`, this.addMsg);
   };
