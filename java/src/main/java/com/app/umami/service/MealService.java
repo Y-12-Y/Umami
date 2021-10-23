@@ -71,6 +71,15 @@ public class MealService {
         Object total = null;
 
         for (Meal meal : meals) {
+            BasicDBObject hostedBy = meal.getHostedBy();
+            String id = (String) hostedBy.get("_id");
+
+            if (StringUtils.equals(id, userId)) {
+                meal.setIsHosted(Boolean.TRUE);
+            } else {
+                meal.setIsHosted(Boolean.FALSE);
+            }
+
             for (BasicDBObject occurrence : meal.getOccurrences()) {
                 List<Object> attendees = (List<Object>) occurrence.get("attendees");
 

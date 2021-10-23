@@ -57,4 +57,7 @@ public class Meal {
 
     @Transient
     private Object occurensId;
+
+    @Transient
+    private Boolean isHosted;
 }
